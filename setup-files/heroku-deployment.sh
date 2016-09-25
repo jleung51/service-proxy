@@ -1,11 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 cd $(dirname $0)
 
-heroku login
-
-source ./local.sh
-heroku config:set MAPPING=$MAPPING
-heroku config:set REPO_OWNER=$REPO_OWNER
-heroku config:set REPO_NAME=$REPO_NAME
-heroku config:set TOKEN=$TOKEN
+source ./vars.sh
+heroku config:set MAPPING=$MAPPING --app $HEROKU_APP
+heroku config:set REPO_OWNER=$REPO_OWNER --app $HEROKU_APP
+heroku config:set REPO_NAME=$REPO_NAME --app $HEROKU_APP
+heroku config:set TOKEN=$TOKEN --app $HEROKU_APP
