@@ -1,7 +1,7 @@
 {
   "name": "service-proxy",
   "version": "0.0.1",
-  "description": "NodeJS proxy server for routing requests from Heroku to Travis CI.",
+  "description": "NodeJS proxy server to route HTTP webhooks from Heroku to Travis CI.",
   "main": "service-router.js",
   "dependencies": {
     "httpdispatcher": "^1.0.0",

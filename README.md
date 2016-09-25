@@ -1,6 +1,6 @@
 # Service Proxy
 
-NodeJS server to route requests from Heroku to Travis CI.
+NodeJS proxy server to route HTTP webhooks from Heroku to Travis CI.
 
 ## Setup
 
