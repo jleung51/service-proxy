@@ -8,7 +8,7 @@ var http = require('http');
 var request = require('request');
 var dispatcher = require('httpdispatcher');
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const MAPPING = process.env.MAPPING;
 const REPO_OWNER = process.env.REPO_OWNER;
