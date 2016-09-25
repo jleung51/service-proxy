@@ -10,14 +10,14 @@ var dispatcher = require('httpdispatcher');
 
 const PORT = process.env.PORT || 8080;
 
-const MAPPING = process.env.MAPPING;
+const PROXY_MAPPING = process.env.PROXY_MAPPING;
 const REPO_OWNER = process.env.REPO_OWNER;
 const REPO_NAME = process.env.REPO_NAME;
 const TOKEN = process.env.TOKEN;
 
 function checkEnvVars() {
-    if(MAPPING == null) {
-        exitForMissingVariable('MAPPING');
+    if(PROXY_MAPPING == null) {
+        exitForMissingVariable('PROXY_MAPPING');
     }
     else if(REPO_OWNER == null) {
         exitForMissingVariable('REPO_OWNER');
@@ -65,7 +65,7 @@ function sendHttpPost(httpTarget) {
 
 function setMappings(dispatcher) {
 
-    dispatcher.onPost(MAPPING, function(req, response) {
+    dispatcher.onPost(PROXY_MAPPING, function(req, response) {
         sendHttpPost(travisHttpTarget);
         response.writeHead(201);
         console.log('Replying to request with HTTP ' + response.statusCode);
