@@ -1,3 +1,6 @@
+# Heroku App
+export HEROKU_APP=
+
 # Service Proxy mapping
 export MAPPING=
 

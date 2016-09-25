@@ -2,7 +2,7 @@
 
 NodeJS proxy server to route HTTP webhooks from Heroku to Travis CI.
 
-## Setup
+## Setup (Under construction)
 
 First, make sure you have a Heroku app deployed and a repository setup and ready to build with Travis CI.
 
@@ -58,9 +58,9 @@ Place the access token in `env-setup/local.sh`.
 
 ### Environment (Local)
 
-Export the environment variables you set in `local.sh`:
+Export the environment variables you set in `vars.sh`:
 ```
-source ./local.sh
+source ./vars.sh
 ```
 
 Check that the environment variables were set correctly:
@@ -68,4 +68,8 @@ Check that the environment variables were set correctly:
 ./printvars.sh
 ```
 
-You should see the values you just set in `local.sh`.
+You should see the values you just set in `vars.sh`.
+
+### Environment (Heroku)
+
+Deploying the server on Heroku takes a little more configuration.
