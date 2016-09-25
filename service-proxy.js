@@ -50,7 +50,7 @@ var travisHttpTarget = {
 // and response.
 function sendHttpPost(httpTarget) {
     console.log('Sending HTTP request:');
-    console.log('  ' + httpTarget.method + " " + httpTarget.host + httpTarget.path);
+    console.log('  ' + httpTarget.method + " " + httpTarget.uri + httpTarget.path);
     console.log('  Headers: ' + JSON.stringify(httpTarget.headers));
     console.log();
 
