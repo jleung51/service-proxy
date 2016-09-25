@@ -10,12 +10,16 @@ var dispatcher = require('httpdispatcher');
 
 const PORT = 8080;
 
+const MAPPING = process.env.MAPPING;
 const REPO_OWNER = process.env.REPO_OWNER;
 const REPO_NAME = process.env.REPO_NAME;
 const TOKEN = process.env.TOKEN;
 
 function checkEnvVars() {
-    if(REPO_OWNER == null) {
+    if(MAPPING == null) {
+        exitForMissingVariable('MAPPING');
+    }
+    else if(REPO_OWNER == null) {
         exitForMissingVariable('REPO_OWNER');
     }
     else if(REPO_NAME == null) {
@@ -57,7 +61,7 @@ function setMappings(dispatcher) {
 
     dispatcher.setStatic('resources');
 
-    dispatcher.onPost("/pacmacro/pm-server/apitests", function(req, response) {
+    dispatcher.onPost(MAPPING, function(req, response) {
         console.log('Sending HTTP request:');
         console.log('  ' + travisHttpTarget.method + " " + travisHttpTarget.host + travisHttpTarget.path);
         console.log('  Headers: ' + JSON.stringify(travisHttpTarget.headers));
