@@ -1,0 +1,23 @@
+{
+  "name": "service-proxy",
+  "version": "0.0.1",
+  "description": "NodeJS proxy server for routing requests from Heroku to Travis CI.",
+  "main": "service-router.js",
+  "dependencies": {
+    "httpdispatcher": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jleung51/service-router.git"
+  },
+  "author": "Jeffrey Leung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jleung51/service-router/issues"
+  },
+  "homepage": "https://github.com/jleung51/service-router#readme"
+}
