@@ -46,37 +46,29 @@ var travisHttpTarget = {
     }
 };
 
-function handleReq(request, response) {
-    try {
-        console.log('Mapped ' + request.url);
+// This function declaration sends a POST request and logs both the request
+// and response.
+function sendHttpPost(httpTarget) {
+    console.log('Sending HTTP request:');
+    console.log('  ' + httpTarget.method + " " + httpTarget.host + httpTarget.path);
+    console.log('  Headers: ' + JSON.stringify(httpTarget.headers));
+    console.log();
+
+    request.post(httpTarget, function(error, response, body) {
+        console.log('Received HTTP response:');
+        console.log('  HTTP ' + response.statusCode);
+        console.log('  Headers: ' + JSON.stringify(response.headers));
+        console.log('  Body: ' + JSON.stringify(body));
         console.log();
-        dispatcher.dispatch(request, response);
-    }
-    catch(except) {
-        console.log(except);
-    }
+    })
 }
 
 function setMappings(dispatcher) {
 
-    dispatcher.setStatic('resources');
-
     dispatcher.onPost(MAPPING, function(req, response) {
-        console.log('Sending HTTP request:');
-        console.log('  ' + travisHttpTarget.method + " " + travisHttpTarget.host + travisHttpTarget.path);
-        console.log('  Headers: ' + JSON.stringify(travisHttpTarget.headers));
-        console.log();
-
-        request.post(travisHttpTarget, function(error, response, body) {
-            console.log('Response: ');
-            console.log('  HTTP ' + response.statusCode);
-            console.log('  Headers: ' + JSON.stringify(response.headers));
-            console.log('  Body: ' + JSON.stringify(body));
-            console.log();
-        })
-
+        sendHttpPost(travisHttpTarget);
         response.writeHead(201);
-        console.log('Returning request with HTTP status code ' + response.statusCode);
+        console.log('Replying to request with HTTP ' + response.statusCode);
         console.log();
         response.end();
     });
@@ -84,10 +76,18 @@ function setMappings(dispatcher) {
 }
 
 checkEnvVars();
-
-var server = http.createServer(handleReq);
 setMappings(dispatcher);
 
+var server = http.createServer(function(request, response) {
+    console.log('Mapped ' + request.url);
+    console.log();
+    try {
+        dispatcher.dispatch(request, response);
+    }
+    catch(except) {
+        console.log("Error: " + except);
+    }
+});
 server.listen(PORT, function() {
     console.log('Service Proxy is currently running on http://localhost:%s.', PORT);
     console.log();
