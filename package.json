@@ -4,7 +4,8 @@
   "description": "NodeJS proxy server for routing requests from Heroku to Travis CI.",
   "main": "service-router.js",
   "dependencies": {
-    "httpdispatcher": "^1.0.0"
+    "httpdispatcher": "^1.0.0",
+    "request": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {

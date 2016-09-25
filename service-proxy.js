@@ -5,6 +5,7 @@
  */
 
 var http = require('http');
+var request = require('request');
 var dispatcher = require('httpdispatcher');
 
 const PORT = 8080;
@@ -14,11 +15,10 @@ function clone(object) {
 }
 
 var travisHttpTarget = {
-    host: 'api.travis-ci.org',
+    uri: 'https://api.travis-ci.org',
     path: '/repo/' + process.env.REPO_OWNER + '%2F' + process.env.REPO_NAME + '/requests',
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json',
         'Travis-API-Version': 3,
         'Authorization': process.env.TOKEN
     },
@@ -57,13 +57,18 @@ function setMappings(dispatcher) {
 
     dispatcher.setStatic('resources');
 
-    dispatcher.onPost("/pacmacro/apitests", function(request, response) {
+    dispatcher.onPost("/pacmacro/apitests", function(req, response) {
         console.log('Sending HTTP request:');
         console.log('  ' + travisHttpTarget.method + " " + travisHttpTarget.host + travisHttpTarget.path);
         console.log('  Headers: ' + JSON.stringify(travisHttpTarget.headers));
         console.log();
 
-        http.request(travisHttpTarget, travisHttpCallback).end();
+        request.post(travisHttpTarget, function(error, response, body) {
+            console.log('Response: ');
+            console.log('  HTTP ' + response.statusCode);
+            console.log('  Headers: ' + JSON.stringify(response.headers));
+            console.log('  Body: ' + JSON.stringify(body));
+        })
 
         response.writeHead(201);
         console.log('Returning request with HTTP status code ' + response.statusCode);
