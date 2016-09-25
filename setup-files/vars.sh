@@ -1,10 +1,8 @@
-# Heroku App
-export HEROKU_APP=
+# Service Proxy Heroku app and API mapping
+export PROXY_HEROKU_APP=
+export PROXY_MAPPING=
 
-# Service Proxy mapping
-export MAPPING=
-
-# Travis CI endpoint
+# Travis CI repository
 export REPO_OWNER=
 export REPO_NAME=
 export TOKEN=
