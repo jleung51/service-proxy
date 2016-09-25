@@ -10,37 +10,37 @@ var dispatcher = require('httpdispatcher');
 
 const PORT = 8080;
 
-function clone(object) {
-    return JSON.parse(JSON.stringify(object))
+const REPO_OWNER = process.env.REPO_OWNER;
+const REPO_NAME = process.env.REPO_NAME;
+const TOKEN = process.env.TOKEN;
+
+function checkEnvVars() {
+    if(REPO_OWNER == null) {
+        exitForMissingVariable('REPO_OWNER');
+    }
+    else if(REPO_NAME == null) {
+        exitForMissingVariable('REPO_NAME');
+    }
+    else if(TOKEN == null) {
+        exitForMissingVariable('TOKEN');
+    }
+
+    function exitForMissingVariable(varName) {
+        console.log('Error: Environment variable ' + varName + ' cannot be null.');
+        console.log('Exiting process.')
+        process.exit(1);
+    }
 }
 
 var travisHttpTarget = {
     uri: 'https://api.travis-ci.org',
-    path: '/repo/' + process.env.REPO_OWNER + '%2F' + process.env.REPO_NAME + '/requests',
+    path: '/repo/' + REPO_OWNER + '%2F' + REPO_NAME + '/requests',
     method: 'POST',
     headers: {
         'Travis-API-Version': 3,
-        'Authorization': process.env.TOKEN
-    },
-    followAllRedirects: true
+        'Authorization': TOKEN
+    }
 };
-
-var travisHttpCallback = function(response) {
-    var responseString = '';
-    console.log('Response: ');
-    console.log('  HTTP ' + response.statusCode);
-    console.log('  Headers: ' + JSON.stringify(response.headers));
-    response.on('data', function(data) {
-        responseString += data;
-    });
-    response.on('error', function(error) {
-        console.log(error.status);
-    });
-    response.on('end', function() {
-        console.log('  Body: ' + responseString);
-        console.log();
-    });
-}
 
 function handleReq(request, response) {
     try {
@@ -57,7 +57,7 @@ function setMappings(dispatcher) {
 
     dispatcher.setStatic('resources');
 
-    dispatcher.onPost("/pacmacro/apitests", function(req, response) {
+    dispatcher.onPost("/pacmacro/pm-server/apitests", function(req, response) {
         console.log('Sending HTTP request:');
         console.log('  ' + travisHttpTarget.method + " " + travisHttpTarget.host + travisHttpTarget.path);
         console.log('  Headers: ' + JSON.stringify(travisHttpTarget.headers));
@@ -68,6 +68,7 @@ function setMappings(dispatcher) {
             console.log('  HTTP ' + response.statusCode);
             console.log('  Headers: ' + JSON.stringify(response.headers));
             console.log('  Body: ' + JSON.stringify(body));
+            console.log();
         })
 
         response.writeHead(201);
@@ -77,6 +78,8 @@ function setMappings(dispatcher) {
     });
 
 }
+
+checkEnvVars();
 
 var server = http.createServer(handleReq);
 setMappings(dispatcher);
