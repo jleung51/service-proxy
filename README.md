@@ -28,7 +28,7 @@ Keep this token; you will need it for setup.
 
 Clone the repository and navigate into the directory:
 ```
-git clone https://github.com/jleung51/service-proxy
+git clone https://github.com/jleung51/service_proxy
 cd service-proxy/
 ```
 
