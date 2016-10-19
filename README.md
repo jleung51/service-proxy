@@ -85,7 +85,7 @@ heroku login
 
 Create a Heroku application for the service proxy with whatever name you like:
 ```
-heroku apps:create YOUR_APP_NAME_HERE
+heroku apps:create SERVICE_PROXY_APP_NAME_HERE
 ```
 
 Use that app name as the value `PROXY_HEROKU_APP` in `vars.sh` and refresh the environment variables:
@@ -104,16 +104,28 @@ Set the local environment variables as the Heroku application's environment vari
 ./heroku-deployment.sh
 ```
 
-#### Post-Deploy Hook
+#### Post-Deploy Hook (Heroku Dashboard)
 
-Find the name of the application you want to send a post-deploy webhook from:
+If you prefer to manually set up the post-deploy hook through the command line, skip to the next section.
+
+Go to the [Heroku Dashboard](https://dashboard.heroku.com/) and choose the Heroku app which should send a post-deploy notification to the service proxy. Select the *Resources* tab, go down to *Add-ons*, type *Deploy Hooks* in the search bar, and select *HTTP Post Hook*. Click on the new deploy hook to go to the alternate dashboard.
+
+Using this dashboard, you can set the URL to `http://SERVICE_PROXY_APP_NAME.herokuapp.com/SERVICE_PROXY_MAPPING`, which should be the values you set in `vars.sh`.
+
+#### Post-Deploy Hook (Manual)
+
+If you prefer to manually set up the post-deploy hook through the Heroku GUI, return to the previous section.
+
+Navigate into the repository of the Heroku application which should send a post-deploy notification to the service proxy. Create a post-deploy hook:
 ```
-heroku list
+heroku addons:create deployhooks:http url=http://SERVICE_PROXY_APP_NAME.herokuapp.com/SERVICE_PROXY_MAPPING
 ```
 
-# TODO
+Where `SERVICE_PROXY_APP_NAME` and `SERVICE_PROXY_MAPPING` should be the values you set in `vars.sh`.
 
 #### Heroku Management
+
+Once you have reached this step, the complete system should be fully up and running.
 
 There are scripts in the `heroku-management/` directory for general Heroku application management.
 
