@@ -13,7 +13,7 @@
     "start": "node service-proxy.js"
   },
   "engines": {
-    "node": "4.5.0"
+    "node": "10.15.2"
   },
   "repository": {
     "type": "git",
